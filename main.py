@@ -6,13 +6,13 @@ from camera import VideoCamera
 from flask_basicauth import BasicAuth
 import time
 import threading
-from tgbot import send_message
+from tgbot import send
 from datetime import datetime
 from tzlocal import get_localzone
 
 email_update_interval = 60 # sends an email only once in this time interval
 video_camera = VideoCamera(flip=False) # creates a camera object, flip vertically
-object_classifier = cv2.CascadeClassifier("models/facial_recognition_model.xml") # an opencv classifier
+object_classifier = cv2.CascadeClassifier("models/haarcascade_fullbody.xml") # an opencv classifier
 tz = get_localzone()
 
 # App Globals (do not edit)
@@ -34,7 +34,7 @@ def check_for_objects():
                 print ("Sending email...")
                 sendEmail(frame)
                 today = datetime.now(tz).strftime("%I:%M%p on %B %d, %Y")
-                send_message("Terdeteksi!!\n\n"+today)
+                send("Terdeteksi!!\n\n"+today,frame)
                 print ("done!")
         except:
             print("Error sending email: ", sys.exc_info()[0])
@@ -60,4 +60,4 @@ if __name__ == '__main__':
     t = threading.Thread(target=check_for_objects, args=())
     t.daemon = True
     t.start()
-    app.run(host='0.0.0.0', debug=False)
+    app.run(host='127.0.0.1', debug=False)
