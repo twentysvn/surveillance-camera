@@ -6,7 +6,7 @@ from camera import VideoCamera
 from flask_basicauth import BasicAuth
 import time
 import threading
-from tgbot import send
+from tgbot import send_message
 from datetime import datetime
 from tzlocal import get_localzone
 
@@ -34,7 +34,7 @@ def check_for_objects():
                 print ("Sending email...")
                 sendEmail(frame)
                 today = datetime.now(tz).strftime("%I:%M%p on %B %d, %Y")
-                send("Terdeteksi!!\n\n"+today,frame)
+                send_message("Terdeteksi!!\n\n"+today)
                 print ("done!")
         except:
             print("Error sending email: ", sys.exc_info()[0])

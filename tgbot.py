@@ -14,7 +14,3 @@ def send_message(text):
 def send_photo(image):
     response = Bot.send_photo(chat, image)
     return response
-
-def send(text, image):
-    send_message(text)
-    send_photo(image)
