@@ -3,3 +3,5 @@ flask
 Flask-BasicAuth==0.2.0
 requests
 python-telegram-bot
+tzlocal
+numpy
