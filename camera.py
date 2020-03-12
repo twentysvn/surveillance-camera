@@ -44,7 +44,7 @@ class VideoCamera(object):
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
         ret, jpeg = cv2.imencode('.jpg', frame)
-        #cv2.imwrite('anyar.jpg',jpeg)
-        return jpeg.tobytes(), found_objects
 
 
+        return frame, jpeg.tobytes(), found_objects
+        #return jpeg.tobytes(), found_objects

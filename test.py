@@ -6,14 +6,16 @@ from camera import VideoCamera
 from flask_basicauth import BasicAuth
 import time
 import threading
-from tgbot import send_photo
+import tgbot
+from datetime import datetime
 from tzlocal import get_localzone
+from telegram import Bot
+import os
 
 email_update_interval = 60  # interval
 video_camera = VideoCamera(flip=False)
-#object_classifier = cv2.CascadeClassifier("models/facial_recognition_model.xml")
 object_classifier = cv2.CascadeClassifier("models/haarcascade_fullbody.xml") # classifier
-#tz = get_localzone()
+tz = get_localzone()
 
 
 app = Flask(__name__)
@@ -32,23 +34,24 @@ def check_for_objects():
             fr, frame, found_obj = video_camera.get_object(object_classifier)
             if found_obj and (time.time() - last_epoch) > email_update_interval:
                 last_epoch = time.time()
-                print("Sending to TelegramBot...")
-                #sendEmail(frame)
+                print("Sending email...")
+                sendEmail(frame)
+                today = datetime.now(tz).strftime("%I:%M%p on %B %d, %Y")
+                tgbot.send_message("Terdeteksi!!\n\n" + today)
 
-                ##tgbot.send_message("Terdeteksi!!\n\n" + today)
-                #temp_name = ''.join(e for e in today if e.isalnum())
-                #nama_file = "temp"+temp_name+".jpg"
-                #print(nama_file)
+                # temp_name = ''.join(e for e in today if e.isalnum())
+                # nama_file = temp_name.lower()+".jpg"
+                # print(nama_file)
                 # cv2.imwrite(filename=nama_file, img=fr)
                 # print("sukses")
                 # tgbot.send_photo(nama_file)
+                cv2.imwrite(filename='temp.jpg', img=fr)
 
-                print('save')
-                cv2.imwrite(filename='a.jpg', img= fr)
-                print('sukses')
-
-                print("sending photo...")
-                send_photo()
+                token = "1075494982:AAGSzNNaCVvTrOvXjWPgw3kUPWMaGfwDmDU"
+                chat_id = ['678954660']
+                bot = Bot(token=token)
+                bot.send_photo(chat_id=chat_id, photo=open('temp.jpg', 'rb'))
+                #tgbot.send_photo()
                 print("done!")
         except:
             print("Error sending email: ", sys.exc_info()[0])
