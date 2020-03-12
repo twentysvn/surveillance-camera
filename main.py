@@ -9,6 +9,7 @@ import threading
 import tgbot
 from datetime import datetime
 from tzlocal import get_localzone
+from telegram import Bot
 import os
 
 email_update_interval = 60  # interval
@@ -37,6 +38,18 @@ def check_for_objects():
                 sendEmail(frame)
                 today = datetime.now(tz).strftime("%I:%M%p on %B %d, %Y")
                 tgbot.send_message("Terdeteksi!!\n\n" + today)
+
+
+                print("saving photo...")
+                cv2.imwrite(filename='saved_img.jpg', img=frame)
+                print("saving photo success!")
+                print("sending photo...")
+                chat_id = '678954660'
+                token = "1075494982:AAGSzNNaCVvTrOvXjWPgw3kUPWMaGfwDmDU"
+                bot = Bot(token=token)
+                bot.send_photo(chat_id=chat_id, photo=open('saved_img.jpg', 'rb'), caption='TERDETEKSI!!!')
+
+
                 #cv2.imwrite('anyar.jpg', frame)
                 #os.chdir('c:/')
                 #image_dir = 'c:/anyar.jpg'
