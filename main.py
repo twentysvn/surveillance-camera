@@ -6,7 +6,7 @@ from flask_basicauth import BasicAuth
 import time
 import threading
 from tgbot import send_photo
-from gdrive import BackupToDrive
+from gdrive import backup_to_drive
 
 email_update_interval = 60  # interval
 video_camera = VideoCamera(flip=False)
@@ -29,29 +29,20 @@ def check_for_objects():
             fr, frame, found_obj = video_camera.get_object(object_classifier)
             if found_obj and (time.time() - last_epoch) > email_update_interval:
                 last_epoch = time.time()
-                print("Sending to TelegramBot...")
-                # sendEmail(frame)
+                print("Sending message to TelegramBot...")
 
-                # tgbot.send_message("Terdeteksi!!\n\n" + today)
-                # temp_name = ''.join(e for e in today if e.isalnum())
-                # nama_file = "temp"+temp_name+".jpg"
-                # print(nama_file)
-                # cv2.imwrite(filename=nama_file, img=fr)
-                # print("sukses")
-                # tgbot.send_photo(nama_file)
-
-                print('save')
+                print('\n-- saving image...')
                 cv2.imwrite(filename='a.jpg', img=fr)
-                print('sukses')
+                print('++ done.')
 
-                print("sending photo...")
+                print("\n-- sending photo...")
                 send_photo()
-                print("sukses")
+                print("++ done.")
 
-                print("backing up photo to drive..")
-                BackupToDrive()
-                print("done!")
-                print("All done. Sending message completed")
+                print("\n-- backing up photo to drive...")
+                backup_to_drive()
+                print("++ done.")
+                print("\n==> All done. Sending message completed!")
         except:
             print("Error sending message: ", sys.exc_info()[0])
 
