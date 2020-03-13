@@ -10,7 +10,6 @@ import tgbot
 from datetime import datetime
 from tzlocal import get_localzone
 from telegram import Bot
-import os
 
 email_update_interval = 60  # interval
 video_camera = VideoCamera(flip=False)

@@ -1,20 +1,16 @@
 import cv2
 import sys
-from mail import sendEmail
 from flask import Flask, render_template, Response
 from camera import VideoCamera
 from flask_basicauth import BasicAuth
 import time
 import threading
 from tgbot import send_photo
-from tzlocal import get_localzone
 
 email_update_interval = 60  # interval
 video_camera = VideoCamera(flip=False)
-#object_classifier = cv2.CascadeClassifier("models/facial_recognition_model.xml")
-object_classifier = cv2.CascadeClassifier("models/haarcascade_fullbody.xml") # classifier
-#tz = get_localzone()
-
+# object_classifier = cv2.CascadeClassifier("models/facial_recognition_model.xml")
+object_classifier = cv2.CascadeClassifier("models/haarcascade_fullbody.xml")  # classifier
 
 app = Flask(__name__)
 app.config['BASIC_AUTH_USERNAME'] = 'qodim'
@@ -33,25 +29,25 @@ def check_for_objects():
             if found_obj and (time.time() - last_epoch) > email_update_interval:
                 last_epoch = time.time()
                 print("Sending to TelegramBot...")
-                #sendEmail(frame)
+                # sendEmail(frame)
 
-                ##tgbot.send_message("Terdeteksi!!\n\n" + today)
-                #temp_name = ''.join(e for e in today if e.isalnum())
-                #nama_file = "temp"+temp_name+".jpg"
-                #print(nama_file)
+                # tgbot.send_message("Terdeteksi!!\n\n" + today)
+                # temp_name = ''.join(e for e in today if e.isalnum())
+                # nama_file = "temp"+temp_name+".jpg"
+                # print(nama_file)
                 # cv2.imwrite(filename=nama_file, img=fr)
                 # print("sukses")
                 # tgbot.send_photo(nama_file)
 
                 print('save')
-                cv2.imwrite(filename='a.jpg', img= fr)
+                cv2.imwrite(filename='a.jpg', img=fr)
                 print('sukses')
 
                 print("sending photo...")
                 send_photo()
                 print("done!")
         except:
-            print("Error sending email: ", sys.exc_info()[0])
+            print("Error sending message: ", sys.exc_info()[0])
 
 
 @app.route('/')
