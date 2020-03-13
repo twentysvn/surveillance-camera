@@ -6,11 +6,12 @@ from flask_basicauth import BasicAuth
 import time
 import threading
 from tgbot import send_photo
+from gdrive import BackupToDrive
 
 email_update_interval = 60  # interval
 video_camera = VideoCamera(flip=False)
-# object_classifier = cv2.CascadeClassifier("models/facial_recognition_model.xml")
-object_classifier = cv2.CascadeClassifier("models/haarcascade_fullbody.xml")  # classifier
+object_classifier = cv2.CascadeClassifier("models/facial_recognition_model.xml")
+#object_classifier = cv2.CascadeClassifier("models/haarcascade_fullbody.xml")  # classifier
 
 app = Flask(__name__)
 app.config['BASIC_AUTH_USERNAME'] = 'qodim'
@@ -45,7 +46,12 @@ def check_for_objects():
 
                 print("sending photo...")
                 send_photo()
+                print("sukses")
+
+                print("backing up photo to drive..")
+                BackupToDrive()
                 print("done!")
+                print("All done. Sending message completed")
         except:
             print("Error sending message: ", sys.exc_info()[0])
 
