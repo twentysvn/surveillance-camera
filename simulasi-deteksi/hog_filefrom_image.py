@@ -8,11 +8,11 @@ hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 cv2.startWindowThread()
 
 # Capture frame-by-frame
-path = "../test-images/5.jpg"
+path = "../test-images/3.jpg"
 frame = cv2.imread(path)
 
 # resizing for faster detection
-#frame = cv2.resize(frame, (640, 480))
+# frame = cv2.resize(frame, (640, 480))
 # using a greyscale picture, also for faster detection
 gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
 

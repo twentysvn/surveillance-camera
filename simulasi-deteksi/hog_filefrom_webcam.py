@@ -12,12 +12,12 @@ cap = cv2.VideoCapture(0)
 
 # the output will be written to output.avi
 out = cv2.VideoWriter(
-    'output.avi',
+    '../hasil-tes-images/hog_human_detection.avi',
     cv2.VideoWriter_fourcc(*'MJPG'),
     15.,
     (640, 480))
 
-while (True):
+while True:
     # Capture frame-by-frame
     ret, frame = cap.read()
 
