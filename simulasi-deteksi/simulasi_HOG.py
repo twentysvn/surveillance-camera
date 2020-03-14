@@ -7,10 +7,8 @@ hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
 cv2.startWindowThread()
 
-# open webcam video stream
-
 # Capture frame-by-frame
-path = "test/5.jpg"
+path = "../test-images/5.jpg"
 frame = cv2.imread(path)
 
 # resizing for faster detection
@@ -33,4 +31,4 @@ for (xA, yA, xB, yB) in boxes:
     # display the detected boxes in the colour picture
     cv2.rectangle(frame, (xA, yA), (xB, yB), (0, 255, 0), 2)
 
-cv2.imwrite('hog.jpg', frame)
+cv2.imwrite('../hasil-tes-images/hog_test.jpg', frame)

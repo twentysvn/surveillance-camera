@@ -1,12 +1,12 @@
 import cv2
 import sys
 from flask import Flask, render_template, Response
-from camera import VideoCamera
+from modules.camera import VideoCamera
 from flask_basicauth import BasicAuth
 import time
 import threading
-from tgbot import send_photo
-from gdrive import backup_to_drive
+from modules.tgbot import send_photo
+from modules.gdrive import backup_to_drive
 
 email_update_interval = 60  # interval
 video_camera = VideoCamera(flip=False)
@@ -32,7 +32,7 @@ def check_for_objects():
                 print("Sending message to TelegramBot...")
 
                 print('\n-- saving image...')
-                cv2.imwrite(filename='a.jpg', img=fr)
+                cv2.imwrite(filename='last_captured_image.jpg', img=fr)
                 print('++ done.')
 
                 print("\n-- sending photo...")

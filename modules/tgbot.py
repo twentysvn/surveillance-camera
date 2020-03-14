@@ -9,14 +9,7 @@ chat_id = '678954660'
 tz = get_localzone()
 
 
-
-# def send_message(text):
-#     params = {'chat_id': chat_id, 'text': text}
-#     response = requests.post(url + 'sendMessage', data=params)
-#     return response
-
-
 def send_photo():
     today = datetime.now(tz).strftime("%I:%M%p on %B %d, %Y")
     bot = Bot(token=token)
-    bot.send_photo(chat_id=chat_id, photo=open('a.jpg', 'rb'), caption='Terdeteksi\n\n'+today)
+    bot.send_photo(chat_id=chat_id, photo=open('last_captured_image.jpg', 'rb'), caption='Terdeteksi\n\n' + today)
