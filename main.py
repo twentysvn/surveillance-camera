@@ -8,7 +8,7 @@ import threading
 from modules.tgbot import send_photo
 from modules.gdrive import backup_to_drive
 
-email_update_interval = 60  # interval
+email_update_interval = 60  # time interval
 video_camera = VideoCamera(flip=False)
 object_classifier = cv2.CascadeClassifier("models/facial_recognition_model.xml")
 #object_classifier = cv2.CascadeClassifier("models/haarcascade_fullbody.xml")  # classifier
@@ -70,4 +70,4 @@ if __name__ == '__main__':
     t = threading.Thread(target=check_for_objects, args=())
     t.daemon = True
     t.start()
-    app.run(host='127.0.0.1', debug=False)
+    app.run(host='0.0.0.0', debug=False)
