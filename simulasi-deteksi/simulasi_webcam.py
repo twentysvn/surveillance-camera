@@ -1,21 +1,17 @@
 import numpy as np
 import cv2
 
-# initialize the HOG descriptor/person detector
-hog = cv2.HOGDescriptor()
-hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+object_classifier = cv2.CascadeClassifier("../models/facial_recognition_model.xml")
 
 cv2.startWindowThread()
-
-# open webcam video stream
 cap = cv2.VideoCapture(0)
 
 # the output will be written to output.avi
 out = cv2.VideoWriter(
-    '../hasil-tes-images/hog_human_detection.avi',
+    '../hasil-tes-images/simulasi_human_detection.avi',
     cv2.VideoWriter_fourcc(*'MJPG'),
     15.,
-    (640, 480))
+    (480, 360))
 
 while True:
     # Capture frame-by-frame
@@ -28,15 +24,27 @@ while True:
 
     # detect people in the image
     # returns the bounding boxes for the detected objects
-    boxes, weights = hog.detectMultiScale(frame, winStride=(8, 8), padding=(32, 32), scale=1.05)
-    #boxes, weights = hog.detectMultiScale(frame, winStride=(8, 8))
+    gray_image = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    weights = object_classifier.detectMultiScale(
+        gray_image,
+        scaleFactor=1.05,
+        minNeighbors=3,
+        minSize=(30, 30)
+    )
 
-    boxes = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes])
+    if len(weights) > 0 :
+        print(len(weights))
 
-    for (xA, yA, xB, yB) in boxes:
-        # display the detected boxes in the colour picture
-        cv2.rectangle(frame, (xA, yA), (xB, yB),
-                      (0, 255, 0), 2)
+    for(x, y, w, h) in weights:
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+
+    # boxes = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes])
+
+    # for (xA, yA, xB, yB) in boxes:
+    #     # display the detected boxes in the colour picture
+    #     cv2.rectangle(frame, (xA, yA), (xB, yB),
+    #                   (0, 255, 0), 2)
 
     # Write the output video
     out.write(frame.astype('uint8'))

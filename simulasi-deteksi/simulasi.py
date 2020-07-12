@@ -1,24 +1,25 @@
 import cv2
 
-object_classifier = cv2.CascadeClassifier("../models/fullbody_recognition_model.xml")
-
+# object_classifier = cv2.CascadeClassifier("../models/upperbody_recognition_model.xml")
+object_classifier = cv2.CascadeClassifier("../models/facial_recognition_model.xml")
 
 def mulai_simulasi(classifier):
-    path = "../test-images/5.jpg"
+    path = "../test-images/3.jpg"
     file = cv2.imread(path)
     gray = cv2.cvtColor(file, cv2.COLOR_BGR2GRAY)
     ret, frame = cv2.threshold(gray, 80, 255, cv2.THRESH_BINARY)
 
     objects = classifier.detectMultiScale(
         frame,
-        scaleFactor=1.1,
-        minNeighbors=5,
+        scaleFactor=1.05,
+        minNeighbors=3,
         minSize=(30, 30),
         flags=cv2.CASCADE_SCALE_IMAGE
     )
 
     if len(objects) > 0:
         print("terdeteksi")
+        print(len(objects))
     else:
         print("!!!! tidak terdeteksi !!!!")
 

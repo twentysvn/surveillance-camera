@@ -8,7 +8,7 @@ hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 cv2.startWindowThread()
 
 # Capture frame-by-frame
-path = "../test-images/3.jpg"
+path = "../test-images/5.jpg"
 frame = cv2.imread(path)
 
 # resizing for faster detection
@@ -18,10 +18,12 @@ gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
 
 # detect people in the image
 # returns the bounding boxes for the detected objects
-boxes, weights = hog.detectMultiScale(frame, winStride=(8, 8))
+#boxes, weights = hog.detectMultiScale(frame, winStride=(8, 8))
+boxes, weights = hog.detectMultiScale(frame, winStride=(8, 8), padding=(32, 32), scale=1.05)
 
 if len(weights) > 0:
     print("terdeteksi")
+    print(len(weights))
 else:
     print("!!! tidak terdeteksi !!!")
 

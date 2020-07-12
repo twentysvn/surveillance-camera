@@ -11,7 +11,7 @@ from modules.gdrive import backup_to_drive
 email_update_interval = 60  # time interval
 video_camera = VideoCamera(flip=False)
 object_classifier = cv2.CascadeClassifier("models/facial_recognition_model.xml")
-#object_classifier = cv2.CascadeClassifier("models/haarcascade_fullbody.xml")  # classifier
+# object_classifier = cv2.CascadeClassifier("models/haarcascade_fullbody.xml")  # classifier
 
 app = Flask(__name__)
 app.config['BASIC_AUTH_USERNAME'] = 'qodim'
