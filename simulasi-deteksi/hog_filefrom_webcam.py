@@ -15,28 +15,30 @@ out = cv2.VideoWriter(
     '../hasil-tes-images/hog_human_detection.avi',
     cv2.VideoWriter_fourcc(*'MJPG'),
     15.,
-    (640, 480))
+    (480, 360))
 
 while True:
     # Capture frame-by-frame
     ret, frame = cap.read()
 
     # resizing for faster detection
-    frame = cv2.resize(frame, (640, 480))
+    frame = cv2.resize(frame, (480, 360))
     # using a greyscale picture, also for faster detection
     gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
 
     # detect people in the image
     # returns the bounding boxes for the detected objects
-    boxes, weights = hog.detectMultiScale(frame, winStride=(8, 8), padding=(32, 32), scale=1.05)
+    boxes, weights = hog.detectMultiScale(gray, winStride=(8, 8), padding=(32, 32), scale=1.05)
     #boxes, weights = hog.detectMultiScale(frame, winStride=(8, 8))
 
     boxes = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes])
 
+    if len(weights) > 0:
+        print(len(weights))
+
     for (xA, yA, xB, yB) in boxes:
         # display the detected boxes in the colour picture
-        cv2.rectangle(frame, (xA, yA), (xB, yB),
-                      (0, 255, 0), 2)
+        cv2.rectangle(frame, (xA, yA), (xB, yB), (0, 255, 0), 2)
 
     # Write the output video
     out.write(frame.astype('uint8'))

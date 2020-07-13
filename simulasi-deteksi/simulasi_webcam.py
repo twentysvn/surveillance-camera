@@ -1,7 +1,8 @@
 import numpy as np
 import cv2
 
-object_classifier = cv2.CascadeClassifier("../models/facial_recognition_model.xml")
+#object_classifier = cv2.CascadeClassifier("../models/facial_recognition_model.xml")
+object_classifier = cv2.CascadeClassifier("../models/fullbody_recognition_model.xml")
 
 cv2.startWindowThread()
 cap = cv2.VideoCapture(0)

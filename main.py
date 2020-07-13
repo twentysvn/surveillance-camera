@@ -8,9 +8,12 @@ import threading
 from modules.tgbot import send_photo
 from modules.gdrive import backup_to_drive
 
-email_update_interval = 60  # time interval
+email_update_interval = 30  # time interval 1 menit
 video_camera = VideoCamera(flip=False)
 object_classifier = cv2.CascadeClassifier("models/facial_recognition_model.xml")
+
+hog = cv2.HOGDescriptor()
+hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 # object_classifier = cv2.CascadeClassifier("models/haarcascade_fullbody.xml")  # classifier
 
 app = Flask(__name__)
@@ -26,7 +29,7 @@ def check_for_objects():
     global last_epoch
     while True:
         try:
-            fr, frame, found_obj = video_camera.get_object(object_classifier)
+            fr, frame, found_obj = video_camera.get_object(hog)
             if found_obj and (time.time() - last_epoch) > email_update_interval:
                 last_epoch = time.time()
                 print("Sending message to TelegramBot...")
