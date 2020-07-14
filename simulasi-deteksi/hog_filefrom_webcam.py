@@ -1,5 +1,7 @@
 import numpy as np
 import cv2
+import imutils
+from modules.nms import non_max_suppression_fast as nms
 
 # initialize the HOG descriptor/person detector
 hog = cv2.HOGDescriptor()
@@ -23,15 +25,15 @@ while True:
 
     # resizing for faster detection
     frame = cv2.resize(frame, (480, 360))
+    frame = imutils.resize(frame, width=min(480, frame.shape[1]))
     # using a greyscale picture, also for faster detection
     gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
 
     # detect people in the image
     # returns the bounding boxes for the detected objects
     boxes, weights = hog.detectMultiScale(gray, winStride=(8, 8), padding=(32, 32), scale=1.05)
-    #boxes, weights = hog.detectMultiScale(frame, winStride=(8, 8))
-
     boxes = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes])
+    boxes = nms(boxes, 0.3)
 
     if len(weights) > 0:
         print(len(weights))
