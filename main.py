@@ -29,7 +29,7 @@ def check_for_objects():
     global last_epoch
     while True:
         try:
-            fr, frame, found_obj = video_camera.get_object(hog)
+            jmlobjek, fr, frame, found_obj = video_camera.get_object(hog)
             if found_obj and (time.time() - last_epoch) > email_update_interval:
                 last_epoch = time.time()
                 print("Sending message to TelegramBot...")
@@ -39,7 +39,7 @@ def check_for_objects():
                 print('++ done.')
 
                 print("\n-- sending photo...")
-                send_photo()
+                send_photo(jumlahobject=jmlobjek)
                 print("++ done.")
 
                 print("\n-- backing up photo to drive...")

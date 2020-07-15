@@ -33,7 +33,7 @@ while True:
         minSize=(30, 30)
     )
 
-    if len(weights) > 0 :
+    if len(weights) > 0:
         print(len(weights))
 
     for(x, y, w, h) in weights:

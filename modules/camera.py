@@ -2,6 +2,7 @@ import cv2
 from imutils.video import VideoStream
 import time
 import numpy as np
+from modules.nms import non_max_suppression_fast as nms
 
 
 class VideoCamera(object):
@@ -35,12 +36,16 @@ class VideoCamera(object):
         #     minSize=(30, 30),
         #     flags=cv2.CASCADE_SCALE_IMAGE
         # )
-        boxes, objects = hog.detectMultiScale(gray, winStride=(8, 8), padding=(32, 32), scale=1.05)
 
+        boxes, objects = hog.detectMultiScale(gray, winStride=(8, 8), padding=(32, 32), scale=1.03)
         boxes = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes])
+        boxes = nms(boxes, 0.3)
 
-        if len(objects) > 0:
+        if len(boxes) > 0:
             found_objects = True
+            jmlobject = len(boxes)
+        else:
+            jmlobject = 0
 
         # kotak ijo
         # for (x, y, w, h) in objects:
@@ -52,5 +57,5 @@ class VideoCamera(object):
 
         ret, jpeg = cv2.imencode('.jpg', frame)
 
-        return frame, jpeg.tobytes(), found_objects
+        return jmlobject, frame, jpeg.tobytes(), found_objects
 
