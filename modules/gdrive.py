@@ -12,6 +12,9 @@ from tzlocal import get_localzone
 SCOPES = ['https://www.googleapis.com/auth/drive']
 tz = get_localzone()
 
+#pickle_path = 'gdrive-creds/token.pickle'
+#cred_path = 'gdrive-creds/credentials.json'
+
 
 def backup_to_drive():
     """Shows basic usage of the Drive v3 API.
@@ -43,7 +46,5 @@ def backup_to_drive():
 
     file_metadata = {'name': file_name + '.jpg', 'parents': ['1RmyvXwRubdu8m8VzvUK1clAgNSRM1Clv']}
 
-    # file_metadata = {'name': '111sample.pdf', # nek pan nganggo folder
-    #                  'parents': ['1RmyvXwRubdu8m8VzvUK1clAgNSRM1Clv']}
     media = MediaFileUpload(os.path.abspath("last_captured_image.jpg"), mimetype='image/jpeg')
     service.files().create(body=file_metadata, media_body=media, fields='id').execute()

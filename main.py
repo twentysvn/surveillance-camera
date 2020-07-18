@@ -8,13 +8,11 @@ import threading
 from modules.tgbot import send_photo
 from modules.gdrive import backup_to_drive
 
-email_update_interval = 30  # time interval 1 menit
+tg_update_interval = 30  # detik time interval, cegah spam
 video_camera = VideoCamera(flip=False)
-object_classifier = cv2.CascadeClassifier("models/facial_recognition_model.xml")
 
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
-# object_classifier = cv2.CascadeClassifier("models/haarcascade_fullbody.xml")  # classifier
 
 app = Flask(__name__)
 app.config['BASIC_AUTH_USERNAME'] = 'qodim'
@@ -29,8 +27,8 @@ def check_for_objects():
     global last_epoch
     while True:
         try:
-            jmlobjek, fr, frame, found_obj = video_camera.get_object(hog)
-            if found_obj and (time.time() - last_epoch) > email_update_interval:
+            objects_marked, objects_detected, fr, frame, found_obj = video_camera.get_object(hog)
+            if found_obj and (time.time() - last_epoch) > tg_update_interval:
                 last_epoch = time.time()
                 print("Sending message to TelegramBot...")
 
@@ -39,13 +37,13 @@ def check_for_objects():
                 print('++ done.')
 
                 print("\n-- sending photo...")
-                send_photo(jumlahobject=jmlobjek)
+                send_photo(objects_marked=objects_marked, objects_detected=objects_detected)
                 print("++ done.")
 
                 print("\n-- backing up photo to drive...")
                 backup_to_drive()
                 print("++ done.")
-                print("\n==> All done. Sending message completed!")
+                print("\n==> All done. Sending message completed!\n")
         except:
             print("Error sending message: ", sys.exc_info()[0])
 

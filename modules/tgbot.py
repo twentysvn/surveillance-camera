@@ -9,8 +9,9 @@ chat_id = '678954660'
 tz = get_localzone()
 
 
-def send_photo(jumlahobject):
+def send_photo(objects_detected, objects_marked):
     today = datetime.now(tz).strftime("%I:%M%p on %B %d, %Y")
     bot = Bot(token=token)
     bot.send_photo(chat_id=chat_id, photo=open(
-        'last_captured_image.jpg', 'rb'), caption='Terdeteksi '+str(jumlahobject)+' Objek\n\n' + str(today))
+        'last_captured_image.jpg', 'rb'), caption='Terdeteksi '+str(objects_detected)+' objek dalam frame. Menandai '
+                                                  + str(objects_marked) + ' Objek\n\n' + str(today))
