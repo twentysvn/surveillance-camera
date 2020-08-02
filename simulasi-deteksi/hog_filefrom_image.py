@@ -9,7 +9,7 @@ hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
 cv2.startWindowThread()
 
-path = "../test-images/1.jpg"
+path = "../test-images/5.jpg"
 frame = cv2.imread(path)
 
 # resizing for faster detection
@@ -21,7 +21,7 @@ frame = imutils.resize(frame, width=min(480, frame.shape[1]))
 # detect people in the image
 # returns the bounding boxes for the detected objects
 # akurasi tertinggi  = winStride=(8, 8), padding=(32, 32), scale=1.03
-boxes, weights = hog.detectMultiScale(frame, winStride=(8, 8), padding=(32, 32), scale=1.03)
+boxes, weights = hog.detectMultiScale(frame, winStride=(4, 4), padding=(32, 32), scale=1.03)
 boxes = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes])
 
 if len(boxes) > 0:

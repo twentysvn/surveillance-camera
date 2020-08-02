@@ -2,7 +2,7 @@ from skimage import exposure
 from skimage import feature
 import cv2
 
-path = "../test-images/1.jpg"
+path = "../test-images/5.jpg"
 frame = cv2.imread(path)
 image = cv2.resize(frame, (640, 480))
 
